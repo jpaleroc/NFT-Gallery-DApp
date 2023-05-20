@@ -1,0 +1,32 @@
+{
+  "name": "gallery-dapp",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "serve": "vite dev --port 8888",
+    "start": "npm run serve"
+  },
+  "dependencies": {
+    "@metamask/onboarding": "^1.0.1",
+    "buffer": "^6.0.3",
+    "ipfs-client": "^0.8.2",
+    "vite-plugin-commonjs-externals": "^0.1.1",
+    "vite-plugin-fs": "^1.0.0-beta.4",
+    "web3": "^1.8.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@playwright/test": "^1.12.3",
+    "ipfs": "^0.64.0",
+    "playwright": "^1.12.3",
+    "process": "^0.11.10",
+    "rimraf": "^3.0.2",
+    "test-util-ipfs-example": "^1.0.2",
+    "util": "^0.12.4",
+    "vite": "^3.1.0"
+  },
+  "author": "Jesus_Palero",
+  "license": "MIT"
+}

@@ -1,0 +1,364 @@
+/*BODY*/
+body {
+  background-color: #003366;
+}
+
+/*NAVBAR*/
+.navbar>.container-fluid{
+  display: flex;
+  flex-wrap: inherit;
+  align-items: center;
+}
+.navbar{
+  background-color: #001933;
+}
+.navbar-brand{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.navbar-brand-title {
+  color: #fff;
+  font-family: 'Magneto', sans-serif;
+  text-decoration: none;
+}
+.nav-image{
+  width: 4rem;
+  height: 4rem;
+  margin-right: 20px;
+}
+.homeIcon{
+  border: 2px solid; 
+  color: #FFFFFF;
+}
+.logoutIcon{
+  border: 2px solid; 
+  color: #FFFFFF;
+}
+.navbar button {
+  margin-right: 50px;
+}
+
+/*MAIN*/
+.mycontainer{
+  padding-block: 1rem;
+  overflow-x: hidden;
+}
+
+/*CARDS*/
+.card{
+  background-color: #004C99;
+}
+.card-title{
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+.card-body{
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card-price{
+  margin-bottom: 1rem;
+}
+.card-img{
+  max-width: 75%;
+}
+.card-autor{
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+.card-autor-name{
+  border: 1px solid #FFFFFF;
+  border-radius: 100px;
+  padding: 0.25rem 0.75rem;
+  margin-top: revert;
+  margin: 0rem;
+}
+.card-id{
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.card-id-number{
+  border: 1px solid #FFFFFF;
+  border-radius: 100px;
+  padding: 0.25rem 0.75rem;
+  margin-top: revert;
+  margin: 0rem;
+}
+.hr-smashing {
+  width: 100%;
+  display: inline-block;
+  color: #FFFFFF;
+  opacity: initial;
+  vertical-align: middle;
+}
+.card-text{ /*Eliminar*/
+  padding-top: 1rem;
+  margin-bottom: 0rem;
+  margin-bottom: 1rem;
+  border-top: 1px solid #FFFFFF;
+}
+.row{
+  margin: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.row>.col-4{
+  color:#fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.btn-buyNFT{
+  color: #fff;
+  background-color: #001933;
+  border-color: 1px solid #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 7px;
+}
+
+/*FORMS*/
+label, input {
+  color: #FFFFFF;
+}
+input[type="file"] {
+  display: none;
+}
+form{
+  margin-block-end: 0;
+}
+.form-group{
+  padding: 0.5rem;
+}
+.btn-submit{
+  color: #fff;
+  background-color: #001933;
+  border-color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 7px;
+}
+.bi-x-lg{
+  color: #FFFFFF;
+  display: none;
+}
+#img-default{
+  width: 100%;
+  height: 100px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+#nft-preview {
+  width: -webkit-fill-available;
+  height: auto;
+  background-color: #ffffff;
+  display: none;
+}
+.content-select{
+	width: -webkit-fill-available;
+	position: relative;
+}
+.select-number{
+  display: inline-block;
+  width: -webkit-fill-available;
+  border-radius: 7px;
+  padding: 0.375rem 0.75rem;
+  appearance: none;  
+}
+.select-icon{
+	position: absolute;
+	right: 20px;
+	top: calc(50% - 13px);
+	width: 16px;
+	height: 16px;
+	display: block;
+	border-left:4px solid #001933;
+	border-bottom:4px solid #001933;
+	transform: rotate(-45deg); /* Giramos el cuadrado */
+}
+
+/*HOME*/
+.infoAccount{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+.box-inf{
+  border-radius: 15px;
+  background-color: #004C99;
+  margin: 1rem;
+  text-align: center;
+  width: 75%;
+}
+.text-inf{
+  color: #fff;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.navigation{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.box-btn{
+  margin: 2rem;
+  width: 35%;
+}
+.btn-nav{
+  width: 100%;
+  background-color: #004C99;
+  color: #FFFFFF;
+  padding: 3rem 2rem;
+  border: none;
+  border-radius: 15px;
+}
+.addCard {
+  min-height: 400px;
+}
+
+/*MODAL*/
+#viewNFT .modal-dialog {
+  max-width: 50%;
+  margin: auto;
+}
+#viewNFT .modal-body {
+  display: flex;
+  flex-direction: column;
+}
+#viewNFT .modal-image{
+  width: 75%;
+  margin-bottom: 1rem;
+  align-self: center;
+}
+#viewNFT .modal-label{
+  font-weight: bold;
+}
+#viewNFT .modal-info{
+  font-weight: normal;
+}
+#viewNFT .etherscan-btn{
+  color: #fff;
+  text-decoration: none;
+}
+#viewNFT .btn-primary {
+  background-color: #004C99;
+  border-color: #004C99;
+}
+#viewNFT .btn-primary:hover {
+  background-color: #001933;
+  border-color: #001933;
+}
+
+#buyNFT .modal-dialog{
+  top: 50%;
+  transform: translateY(-50%);
+}
+#buyNFT .modal-content{
+  background: #004C99;
+}
+#buyNFT .modal-header{
+  border: none;
+}
+#buyNFT .modal-footer{
+  border: none;
+}
+#buyNFT .modal-title {
+  color: #fff;
+}
+#buyNFT .modal-body {
+  color: #fff;
+}
+#buyNFT .btn-close {
+  background: transparent url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'><path d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/></svg>") center/1em auto no-repeat;
+  opacity: 1;
+}
+#buyNFT .btn-secondary {
+  background-color: #001933;
+  border-color: #001933;
+}
+
+/*FOOTER*/
+footer {
+  position: sticky;
+  top: 100%;
+}
+.footer{
+  background-color: #001933;
+  text-align: right;
+  padding: 10px;
+}
+.copyright{
+  color:#fff;
+  margin-right: 50px;
+}
+
+/*LOGIN*/
+.form-login {
+  background: #fff;
+  box-shadow: 7px 13px 37px #001933;
+  padding: 20px 30px;
+}
+.form-login h5 {
+  text-align: center;
+  height: 40px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #001933;
+  color: #001933;
+}
+.controls {
+  width: 100%;
+  border: 1px solid #001933;
+  margin-bottom: 15px;
+  padding: 11px 10px;
+  background: #004C99;
+  font-size: 14px;
+  font-weight: bold;
+}
+.controls::placeholder {
+  color: #fff;
+}
+.buttons {
+  width: 100%;
+  height: 40px;
+  background: #001933;
+  border: none;
+  color: white;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+.form-login p{
+  height: 40px;
+  text-align: center;
+  border-bottom: 1px solid;
+}
+.form-login a {
+  color: #001933;
+  text-decoration: none;
+  font-size: 14px;
+}
+.form-login a:hover {
+  text-decoration: underline;
+}
+.form-login span {
+  color: red;
+}
+
+/*PAGE TITLE*/
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 50px;
+}
