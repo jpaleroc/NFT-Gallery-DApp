@@ -1,3 +1,5 @@
 package-lock.json
 node_modules
 .vscode
+contracts/solidityContract/165/artifacts
+contracts/solidityContract/721/artifacts

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+// Developed by Jesus Palero
+pragma solidity ^0.8.0;
 
 import "./721/ERC721.sol";
 
@@ -12,13 +13,8 @@ contract JPNFTGallery is ERC721 {
 
     constructor() ERC721("JP-NFT-Gallery", "JP-NFT") {}
 
-    function mint(address to, string memory uri) public virtual {
-        _mint(to, _tokenId, uri);
+    function mint(address to, string memory uri, uint256 price) public {
+        _mint(to, _tokenId, uri, price);
         _tokenId += 1;
-    }
-
-    function burn(uint256 tokenId) public virtual {
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: caller is not token owner or approved");
-        _burn(tokenId);
     }
 }
