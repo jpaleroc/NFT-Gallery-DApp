@@ -97,11 +97,16 @@ body {
   opacity: initial;
   vertical-align: middle;
 }
-.card-text{ /*Eliminar*/
-  padding-top: 1rem;
-  margin-bottom: 0rem;
-  margin-bottom: 1rem;
-  border-top: 1px solid #FFFFFF;
+.card-sale{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+.card-sale>.btn-secondary{
+  background-color: #001933;
+  border-color: #001933;
+  margin-left: 20px;
 }
 .row{
   margin: 0;

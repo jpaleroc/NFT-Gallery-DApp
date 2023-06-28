@@ -6,6 +6,9 @@ import { create } from 'ipfs-http-client';
 // For json
 import {Buffer} from 'buffer';
 import fs from 'vite-plugin-fs/browser';
+// For web3
+import Web3 from 'web3';
+const web3 = new Web3(window.ethereum);
 
 /********************************
       Connect to MetaMask
@@ -13,8 +16,6 @@ import fs from 'vite-plugin-fs/browser';
 const isMetaMaskInstalled = () => {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
 }
-
-const galleryAdress = "0x9D8441b975F1DC3A64E1A8e9F401c8032365d250";
 
 const getAccounts = async () => {
   const account = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -49,6 +50,7 @@ const handleNewAccountOrNetwork = () => {
   logout();
 }
 
+const galleryAdress = "0x9D8441b975F1DC3A64E1A8e9F401c8032365d250";
 async function connectMetamask() {
   if(isMetaMaskInstalled()){
     try {
@@ -169,7 +171,7 @@ async function fillUserCollection() {
   if(document.querySelector(".user-nft-collection")){
     var collection = document.querySelector(".user-nft-collection");
     getAccounts();
-    if(await balanceOf(window.account) != 0 && await getNextId() == 0){
+    if(await balanceOf() != 0 && await getNextId() == 0){
       emptyText();
     } else {
       var nftCollection = await recoverNFTs();
@@ -195,7 +197,11 @@ async function fillUserCollection() {
                       '<hr class="hr-smashing">' +
                       '<p class="card-autor-name">' + nft.creator +'</p>' +
                     '</div>' +
-                    '<p class="card-price">' + await getNftPrice(nft.id) + ' ETH <img src="../images/editIcon.png" height="20" width="20" onclick="editPrice();"></p>' +
+                    '<p class="card-price">' + await getNftPrice(nft.id) + ' ETH <img src="../images/editIcon.png" height="20" width="20" onclick="editPrice('+nft.id.split("#").pop()+');"></p>' +
+                    '<div class="card-sale">' +
+                      '<p class="card-status">On sale?: ' + await isForSale(nft.id) + '</p>' +
+                      '<button id="onSaleBtn" type="button" class="btn btn-secondary" onclick="changeOnSale('+ nft.id.split("#").pop() +');">Change</button>' +
+                    '</div>' + 
                   '</div>' +
                 '</div>'
               );
@@ -214,8 +220,8 @@ fillUserCollection();
         Gallery View NFT Modal
 ***********************************/
 const viewNft = async function(element){
-  var nftId = element.getElementsByClassName("card-id-number")[0].innerHTML.split("#").pop();
-  var response = httpGet(await tokenURI(nftId));
+  var nftId = element.getElementsByClassName("card-id-number")[0].innerHTML;
+  var response = httpGet(await tokenURI(nftId.split("#").pop()));
   if(response.statusText == "OK"){
     var nft = JSON.parse(response.responseText);
     document.getElementById("viewNftTitle").innerHTML = nft.title;
@@ -226,6 +232,10 @@ const viewNft = async function(element){
     document.getElementById("viewNftOwner").innerHTML = await ownerOf(nftId);
     document.getElementById("viewNftPrice").innerHTML = await getNftPrice(nft.id) + " ETH";
     document.getElementById("etherscan").href = "https://sepolia.etherscan.io/nft/0xcd4d30176cd1e667a8860f72743cf0fff4c8f853/" + nftId;
+    console.log(nftId, await isForSale(nftId));
+    if(await isForSale(nftId) == "false") {
+      document.getElementById("buyBtn").classList.add("disabled");
+    }
   }
 
   $('#viewNFT').modal('show');
@@ -257,6 +267,34 @@ async function buyNft() {
   }
 }
 window.buyNft = buyNft;
+
+/***********************************
+            Sell NFT
+***********************************/
+async function isForSale(tokenId){
+  var nftPrices = JSON.parse(await fs.readFile("../nfts_onsale.json"));
+  return nftPrices[tokenId];
+}
+
+const changeOnSale = async function(tokenId){
+  var nftPrices = JSON.parse(await fs.readFile("../nfts_onsale.json"));
+  tokenId = "#" + tokenId;
+  if(!nftPrices[tokenId]){
+    nftPrices[tokenId] = "false";
+  }else{
+    if(nftPrices[tokenId] == "true"){
+      nftPrices[tokenId] = "false";
+    } else {
+      nftPrices[tokenId] = "true";
+    }
+  }
+
+  await fs.writeFile("../nfts_onsale.json", JSON.stringify(nftPrices, null, 2));
+  window.location.reload();
+}
+
+window.isForSale = isForSale;
+window.changeOnSale = changeOnSale;
 
 /***********************************
         Login & User cookie
@@ -323,26 +361,23 @@ window.logout = logout;
 /***********************************
           NFT Price
 ***********************************/
-function editPrice() {
+function editPrice(tokenId) {
+  document.getElementById("tokenId").value = tokenId;
   $('#editPrice').modal('show');
 }
 
-function savePrice() {
-  setNftPrice("#5", document.querySelector("#nft-price").value);
+async function savePrice() {
+  var tokenId = document.getElementById("tokenId").value;
+  await setPrice(tokenId, web3.utils.toWei(document.querySelector("#nft-price").value, "ether"));
+  alert("NFT #" + tokenId + " price changed successfully!");
+  window.location.href = "./home.html";
 }
 
 async function getNftPrice(tokenId){
-  var nftPrices = JSON.parse(await fs.readFile("../nfts_price.json"));
-  return nftPrices[tokenId];
+  var price = await getPrice(tokenId.split("#").pop());
+  return web3.utils.fromWei(price, "ether");
 }
 
-async function setNftPrice(tokenId, price){
-  var nftPrices = JSON.parse(await fs.readFile("../nfts_price.json"));
-  nftPrices[tokenId] = price;
-  await fs.writeFile("../nfts_price.json", JSON.stringify(nftPrices, null, 2));
-  alert("NFT " + tokenId + "price chanded successfully!");
-  window.location.reload();
-}
 window.editPrice = editPrice;
 window.savePrice = savePrice;
 window.getNftPrice = getNftPrice;
@@ -386,14 +421,15 @@ async function createNFT(){
     description: await document.querySelector("#nft-description").value,
     creator: await getUsername(),
   };
-  await setNftPrice(nftMetadata.id, document.querySelector("#nft-price").value);
 
   var nftMetadataIpfs = await ipfs.add(JSON.stringify(nftMetadata));
   var nftMetadataCid = nftMetadataIpfs.cid.toString();
   var tokenUri = "https://nft-gallery.infura-ipfs.io/ipfs/" + nftMetadataCid;
+  var price = web3.utils.toWei(document.querySelector("#nft-price").value, "ether");
 
   await getAccounts();
-  await mint(account, tokenUri);
+  await mint(account, tokenUri, price);
+  changeOnSale(await getNextId() - 1);
 }
 
 async function validateForm(){

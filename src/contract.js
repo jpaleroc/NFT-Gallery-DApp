@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import contractAbi from '../contracts/JPNFTGallery_abi.json';
 
-const contractAddress = "0xCd4d30176cd1e667A8860f72743Cf0FFf4c8f853";
+const contractAddress = "0x58e3De53fFDB2d056247B08524886d6b10f5c504"; //New 0x58e3De53fFDB2d056247B08524886d6b10f5c504 Old 0xCd4d30176cd1e667A8860f72743Cf0FFf4c8f853
 const web3 = new Web3(window.ethereum);
 const contract = new web3.eth.Contract(contractAbi, contractAddress);
 const private_key = "d882722c5cd2bb9e717e1fd77380632afe2cc26d399603a51f7e331384507dde";
@@ -42,10 +42,11 @@ async function getNextId() {
   }
 }
 
-async function balanceOf(adress) {
+async function balanceOf() {
   if(contract) {
     try {
-      return await contract.methods.balanceOf(adress).call();
+      const account = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      return await contract.methods.balanceOf(account[0]).call();
     }catch (err){
       console.log(err);
     }
@@ -82,10 +83,31 @@ async function tokenURI(tokenId) {
   }
 }
 
-async function mint(to, tokenUri) {
+async function getPrice(tokenId) {
+  if(contract) {
+    try {
+      return await contract.methods.getPrice(tokenId).call();
+    }catch (err){
+      console.log(err);
+    }
+  }
+}
+
+async function setPrice(tokenId, price) {
+  if(contract) {
+    try {
+      const account = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      return await contract.methods.setPrice(tokenId, price).send({from: account[0]});
+    }catch (err){
+      console.log(err);
+    }
+  }
+}
+
+async function mint(to, tokenUri, price) {
   if(contract){
     try{
-      await contract.methods.mint(to, tokenUri).send({from: to});
+      await contract.methods.mint(to, tokenUri, price).send({from: to});
     }catch (err){
       console.log(err);
     }
@@ -203,6 +225,8 @@ window.balanceOf = balanceOf;
 window.ownerOf = ownerOf;
 window.creatorOf = creatorOf;
 window.tokenURI = tokenURI;
+window.getPrice = getPrice;
+window.setPrice = setPrice;
 window.mint = mint;
 window.burn = burn;
 window.setApprovalForAll = setApprovalForAll;
